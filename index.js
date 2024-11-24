@@ -34,13 +34,21 @@ function closemenu() {
 //   }
 // });
 
-const scriptURL =
-  "https://script.google.com/macros/s/AKfycbwszOKlDrCsTy9zZVE8FmnmYKnJr5CPKlq6pQ_qnHTUn_XY_do4CC5UBDm6NBhmYW2l/exec";
-const form = document.forms["submit-to-google-sheet"];
 
+
+const scriptURL = "https://script.google.com/macros/s/AKfycbwszOKlDrCsTy9zZVE8FmnmYKnJr5CPKlq6pQ_qnHTUn_XY_do4CC5UBDm6NBhmYW2l/exec";
+const form = document.forms["submit-to-google-sheet"];
+const msg = document.getElementById("msg");
 form.addEventListener("submit", (e) => {
   e.preventDefault();
+
   fetch(scriptURL, { method: "POST", body: new FormData(form) })
-    .then((response) => console.log("Success!", response))
+    .then((response) => {
+      msg.innerHTML = "Message sent Successfully";
+      setTimeout(function(){
+        msg.innerHTML = "";
+      },3000)
+      form.reset()
+    })
     .catch((error) => console.error("Error!", error.message));
 });
